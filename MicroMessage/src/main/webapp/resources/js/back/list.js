@@ -9,11 +9,21 @@ function deleteBatch(){
 }
 
 function UpdateOne(id){
-	$("#mainForm").attr("action","updateOne.action?id=" + id)
+	$("#mainForm").attr("action","updateOneCommod.action?id=" + id)
 	$("#mainForm").submit()
 }
 
 function InsertOne(){
-	$("#mainForm").attr("action","insert.action")
+	$("#mainForm").attr("action","insertOneCommod.action")
+	$("#mainForm").submit()
+}
+
+function InserContextOne(id){
+	$("#mainForm").attr("action","insertOneContext.action?commodId=" + id)
+	$("#mainForm").submit()
+}
+
+function LinkInsertContext(id){
+	$("#mainForm").attr("action","alink.action?page=insertContext&id=" + id)
 	$("#mainForm").submit()
 }

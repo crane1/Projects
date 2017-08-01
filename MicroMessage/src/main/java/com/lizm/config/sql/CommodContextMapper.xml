@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 命名空间，保证内容的唯一性 -->
+<mapper namespace="CommodContext">
+
+	<!-- 数据库返回值和对象属性的映射关系 -->
+	<resultMap type="com.lizm.beans.CommodContext" id="CommodContextResult">
+		<id column="id" jdbcType="INTEGER" property="id"/>
+		<result column="commod_id" jdbcType="INTEGER" property="commodId"/>
+		<result column="context" jdbcType="VARCHAR" property="context"/>
+	</resultMap>
+	
+	<insert id="InsertOne" parameterType="com.lizm.beans.CommodContext">
+		insert into commod_context(commod_id, context) values(#{commodId}, #{context})
+	</insert>
+</mapper>

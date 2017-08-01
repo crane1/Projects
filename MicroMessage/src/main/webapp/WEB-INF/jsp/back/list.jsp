@@ -14,7 +14,7 @@
 		<script type="text/javascript" src="resources/js/back/list.js"></script>
 	</head>
 	<body style="background: #e1e9eb;">
-		<form action="List.action" id="mainForm" method="post">
+		<form action="ListCommod.action" id="mainForm" method="post">
 			<div class="right">
 				<div class="current">当前位置：<a href="javascript:void(0)" style="color:#6E6E6E;">内容管理</a> &gt; 内容列表</div>
 				<div class="rightCont">
@@ -44,7 +44,7 @@
 								    <th>描述</th>
 								    <th>操作</th>
 								</tr>
-								<c:forEach var="item" items="${requestScope.mesgList}" varStatus="status">
+								<c:forEach var="item" items="${requestScope.commodList}" varStatus="status">
 									<c:choose>
 										<c:when test="${status.index % 2 == 0 }">
 											<tr>
@@ -55,7 +55,7 @@
 									</c:choose>
 										<td><input type="checkbox" name="id" id="id${item.id}" value="${item.id}"/></td>
 										<td>${status.index + 1}</td>
-										<td>${item.commod}</td>
+										<td>${item.name}</td>
 										<td>${item.descript}</td>
 										<td>
 											<a href="alink.action?page=update&id=${item.id}" >修改</a>&nbsp;&nbsp;&nbsp;

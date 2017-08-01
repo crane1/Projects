@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 命名空间，保证内容的唯一性 -->
+<mapper namespace="Commod">
+
+	<!-- 数据库返回值和对象属性的映射关系 -->
+	<resultMap type="com.lizm.beans.Commod" id="CommodResult">
+		<id column="c_id" jdbcType="INTEGER" property="id"/>
+		<result column="name" jdbcType="VARCHAR" property="name"/>
+		<result column="descript" jdbcType="VARCHAR" property="descript"/>
+		<collection property="contextList"  resultMap="CommodContext.CommodContextResult" column="c_id"></collection>
+	</resultMap>
+	
+	<!-- 查询单条数据语句 -->
+	<select id="queryCommodById"  parameterType="int" resultMap="CommodResult">
+		select c.id c_id, name, descript, cc.id, commod_id, context 
+		from commod c, commod_context cc where  c.id = #{_parameter} and c.id = commod_id
+	</select>
+	
+	<!-- 查询语句 -->
+	<select id="queryCommodList"  parameterType="com.lizm.beans.Commod" resultMap="CommodResult">
+		select c.id c_id, name, descript, cc.id, commod_id, context 
+		from commod c right join commod_context cc
+		on 1 = 1
+		<!-- 模糊查询'%'与变量之间必须有空格，否则无效 -->
+		<if test="name != null and !&quot;&quot;.equals(name)">
+			and name like '%' #{name} '%'
+		</if>
+		<if test="descript != null and !&quot;&quot;.equals(descript)">
+			and descript like '%' #{descript} '%'
+		</if>
+	</select>
+	
+	<delete id="deleteOne"  parameterType="int">
+		delete from commod where id = #{_parameter}
+	</delete>
+	
+	<delete id="deleteBatch"  parameterType="java.util.List">
+		delete from commod where id in (
+		<foreach collection="list" item="item" separator=",">
+			#{item}
+		</foreach>
+		)
+	</delete>
+	
+	<insert  id="InsertOne"  parameterType="com.lizm.beans.Commod">
+		insert into commod(name, descript) values(#{name}, #{descript});
+	</insert>
+	
+	<update  id="UpdateOne"  parameterType="com.lizm.beans.Commod">
+		update commod set name = #{name}, descript = #{descript}
+		where id = #{id}
+	</update>
+
+</mapper>

@@ -8,13 +8,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.lizm.beans.Commod;
 import com.lizm.beans.Message;
+import com.lizm.service.CommodService;
 import com.lizm.service.MessageService;
 
 @SuppressWarnings("serial")
 public class ALinkServlet extends HttpServlet {
 	
-	MessageService messageService = new MessageService();
+	CommodService commodService = new CommodService();
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
@@ -34,19 +36,32 @@ public class ALinkServlet extends HttpServlet {
 		String page = req.getParameter("page");
 		if(page != null && !"".equals(page)){
 			if(page.equals("insert")){
-				//Èç¹ûÊÇĞÂÔöĞÅÏ¢£¬ÔòÖ±½ÓÌø×ªµ½Ìí¼ÓÒ³Ãæ
+				
 				req.getRequestDispatcher("/WEB-INF/jsp/back/insert.jsp").forward(req, resp);
 			} else if(page.equals("update")){
-				//Èç¹ûÊÇ¸üĞÂĞÅÏ¢£¬ÔòĞèÒª°Ñmessag²ÎÊı´«µ½Ìí¼ÓÒ³Ãæ£¨¸üĞÂÒ³Ãæ£©
+				
 				String id = req.getParameter("id");
 				
-				Message message = messageService.queryMesgById(id);
+				Commod commod = commodService.queryCommodById(id);
 				
-				if(message != null){
-					req.setAttribute("message", message);
-					req.getRequestDispatcher("/WEB-INF/jsp/back/insert.jsp").forward(req, resp);
+				if(commod != null){
+					req.setAttribute("commod", commod);
+					req.getRequestDispatcher("/WEB-INF/jsp/back/update.jsp").forward(req, resp);
 				}else{
-					out.write("ĞŞ¸ÄµÄÊı¾İ²»´æÔÚ");
+					out.write("è¦ä¿®æ”¹çš„ä¸å­˜åœ¨");
+					return;
+				}
+			} else if (page.equals("insertContext")){
+				
+				String id = req.getParameter("id");
+				System.out.println("--------------------id:" + id);
+				Commod commod = commodService.queryCommodById(id);
+				
+				if(commod != null){
+					req.setAttribute("commod", commod);
+					req.getRequestDispatcher("/WEB-INF/jsp/back/insertContext.jsp").forward(req, resp);
+				}else{
+					out.write("è¦æ–°å¢å†…å®¹çš„æŒ‡ä»¤ä¸å­˜åœ¨");
 					return;
 				}
 			}
